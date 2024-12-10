@@ -1,0 +1,27 @@
+* Circuito con 4 impedancias en paralelo y fuente
+* Definición de la fuente alterna de 50 Hz, 380V rms
+Vs Vsource GND SIN(0 528.5 50) DC 0 ; Fuente sinusoidal de 50 Hz, 537.5 V de pico
+
+* Resistencia en serie (Rintern) entre Vs y Vo
+Rintern Vsource Vo 100   ; internal resistance 100 Ohm 
+* Definición de las impedancias:
+* Cada impedancia consta de una resistencia de 1 Ohm, un inductor de 0.1 H y una resistencia de 2000 Ohm a tierra
+
+Rs1 Vo Vo_1 1
+L1 Vo_1 VR1 0.1
+R1 VR1 GND 1829
+
+Rs2 Vo Vo_2 1
+L2 Vo_2 VR2 0.1
+R2 VR2 GND 1732
+
+Rs3 Vo Vo_3 1
+L3 Vo_3 VR3 0.1
+R3 VR3 GND 1649
+
+Rs4 Vo Vo_4 1
+L4 Vo_4 VR4 0.1
+R4 VR4 GND 779
+
+
+.end

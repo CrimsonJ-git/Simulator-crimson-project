@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Simulación</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th, .data-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .data-table th {
+            background-color: #f4f4f4;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border: 1px solid #87cefa;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Buenos días, Tecnico. Comencemos con las tareas.</h1>
+
+    <!-- Mostrar mensajes de éxito -->
+    {% if messages %}
+        <div class="message">
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- Botón para iniciar simulación -->
+    <form method="POST" action="{% url 'work' %}">
+        {% csrf_token %}
+        <button type="submit">start work</button>
+    </form>
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">logout</button>
+    </form>
+    <form method="POST" action="{% url 'restart' %}">
+        {% csrf_token %}
+        <button type="submit">reiniciar</button>
+    </form>
+</body>
+</html>

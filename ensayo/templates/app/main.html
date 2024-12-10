@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Simulación</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th, .data-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .data-table th {
+            background-color: #f4f4f4;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border: 1px solid #87cefa;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Buenos días, ingeniero. Comencemos con las tareas.</h1>
+
+    <!-- Mostrar mensajes de éxito -->
+    {% if messages %}
+        <div class="message">
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- Botón para iniciar simulación -->
+    <form method="POST" action="{% url 'start' %}">
+        {% csrf_token %}
+        <button type="submit">Iniciar Simulación</button>
+    </form>
+
+    <!-- Botón para reiniciar máquinas -->
+    <form method="POST" action="{% url 'restart' %}">
+        {% csrf_token %}
+        <button type="submit">Reiniciar Máquinas</button>
+    </form>
+    <form method="POST" action="{% url 'revision' %}">
+        {% csrf_token %}
+        <button type="submit">revisiones</button>
+    </form>
+    <!-- Botón para desloguearse -->
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Desloguearse</button>
+    </form>
+
+    <!-- Botón para ver registros -->
+    <form method="GET" action="{% url 'listar' %}">
+        <button type="submit">Ver Registros</button>
+    </form>
+
+</body>
+</html>
+

@@ -1,0 +1,43 @@
+{% if page_obj %}
+    {% for tarea in page_obj %}
+        <div class="tarea" style="margin-bottom: 20px; padding: 10px; border: 1px solid #ddd;">
+            <h3>Tarea: {{ tarea.name }}</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td><strong>Nombre:</strong></td>
+                    <td>{{ tarea.name }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Descripción:</strong></td>
+                    <td>{{ tarea.observation }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Hora de publicación:</strong></td>
+                    <td>{{ tarea.hora }}</td>
+                </tr>
+            </table>
+            <form method="POST" action="{% url 'work' %}">
+                {% csrf_token %}
+                <input type="hidden" name="tarea_id" value="{{ tarea.id }}">
+                <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; cursor: pointer;">
+                    Marcar como completada
+                </button>
+            </form>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No hay tareas por hacer.</p>
+{% endif %}
+<form method="POST" action="{% url 'main' %}">
+    {% csrf_token %}
+    <button type="submit">Volver a la pestaña de menu</button>
+<!-- Paginación -->
+<div class="pagination" style="margin-top: 20px;">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" style="margin-right: 10px;">Anterior</a>
+    {% endif %}
+    <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" style="margin-left: 10px;">Siguiente</a>
+    {% endif %}
+</div>

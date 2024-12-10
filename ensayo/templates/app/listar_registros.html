@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Registros</title>
+</head>
+<body>
+    <h1>Lista de Registros</h1>
+    
+    <!-- Formulario de filtrado -->
+    <form method="GET" action="{% url 'listar' %}">
+        <label for="filtro">Filtrar por:</label>
+        <select name="filtro" id="filtro">
+            <option value="">Ver todos</option>
+            <option value="machine" {% if filtro == 'machine' %}selected{% endif %}>machine</option>
+            <option value="Source" {% if filtro == 'Source' %}selected{% endif %}>Fuentes</option>
+            <option value="machine_01" {% if filtro == 'machine_01' %}selected{% endif %}>Machine 01</option>
+            <option value="machine_02" {% if filtro == 'machine_02' %}selected{% endif %}>Machine 02</option>
+            <option value="machine_03" {% if filtro == 'machine_03' %}selected{% endif %}>Machine 03</option>
+            <option value="machine_04" {% if filtro == 'machine_04' %}selected{% endif %}>Machine 04</option>
+        </select>
+        <button type="submit">Aplicar filtro</button>
+    </form>
+    
+    <!-- Tabla de registros -->
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Potencia Activa</th>
+            <th>Potencia Reactiva</th>
+            <th>Factor</th>
+            <th>Potencia Aparente</th>
+            <th>Hora registrada</th>
+        </tr>
+        {% for registro in page_obj %}
+        <tr>
+            <td>{{ registro.id }}</td>
+            <td>{{ registro.name }}</td>
+            <td>{{ registro.active_power }}</td>
+            <td>{{ registro.reactive_power }}</td>
+            <td>{{ registro.factor }}</td>
+            <td>{{ registro.S_power }}</td>
+            <td>{{ registro.hora }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7">No hay registros disponibles.</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Paginación -->
+    <div>
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1&filtro={{ filtro }}">Primera</a>
+                <a href="?page={{ page_obj.previous_page_number }}&filtro={{ filtro }}">Anterior</a>
+            {% endif %}
+            <span class="current">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+            </span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}&filtro={{ filtro }}">Siguiente</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}&filtro={{ filtro }}">Última</a>
+            {% endif %}
+        </span>
+    </div>
+
+</body>
+</html>
+

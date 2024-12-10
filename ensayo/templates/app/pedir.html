@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opción</title>
+</head>
+<body>
+    <h1>Ingrese un dato</h1>
+    <button onclick="location.href='{% url 'main' %}'">volver al menu principal</button>
+    <form method="POST" action="{% url 'pedir' %}">
+        {% csrf_token %}
+        <label for="dato">Dato:</label>
+        <input type="text" id="dato" name="dato">
+        <button type="submit">Enviar</button>
+    </form>
+</body>
+</html>

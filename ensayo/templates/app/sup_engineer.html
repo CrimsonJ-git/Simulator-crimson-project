@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revisión de Registros de Máquinas</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        textarea {
+            width: 100%;
+            resize: none;
+        }
+        .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #007BFF;
+        }
+        .pagination span {
+            margin: 0 5px;
+        }
+        .message {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border: 1px solid #87cefa;
+        }
+    </style>
+</head>
+<body>
+    <h1>Filtrar Registros de Máquinas</h1>
+
+    <form method="GET" action="">
+        <label for="filtro">Filtrar por:</label>
+        <select name="filtro" id="filtro">
+            <option value="todas" {% if filtro == "todas" %}selected{% endif %}>Todas las máquinas</option>
+            <option value="sin hacer" {% if filtro == "sin hacer" %}selected{% endif %}>Sin hacer</option>
+            <option value="hechas" {% if filtro == "hechas" %}selected{% endif %}>Revisadas</option>
+        </select>
+        <button type="submit">Aplicar Filtro</button>
+    </form>
+
+    {% if page_obj %}
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Potencia Activa</th>
+                <th>Descripción</th>
+                <th>Hora y fecha de evento</th>
+                <th>Hora y fecha de revision</th>
+            </tr>
+            {% for registro in page_obj %}
+                <tr>
+                    <td>{{ registro.id }}</td>
+                    <td>{{ registro.name }}</td>
+                    <td>{{ registro.active_power }}</td>
+                    <td>{{ registro.description }}</td>
+                    <td>{{ registro.hora }}</td>
+                    <td>{{ registro.hora_revision }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No hay registros que coincidan con el filtro seleccionado.</p>
+    {% endif %}
+
+    <!-- Paginación -->
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page=1&filtro={{ filtro }}">« Primero</a>
+            <a href="?page={{ page_obj.previous_page_number }}&filtro={{ filtro }}">Anterior</a>
+        {% endif %}
+
+        <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}&filtro={{ filtro }}">Siguiente</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}&filtro={{ filtro }}">Último »</a>
+        {% endif %}
+    </div>
+</body>
+</html>
+

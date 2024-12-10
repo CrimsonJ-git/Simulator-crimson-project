@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Denegado</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container text-center mt-5">
+        <h1 class="text-danger">Acceso Denegado</h1>
+        <p>Lo sentimos, no tienes permisos para acceder a esta página.</p>
+        <a href="{% url 'login' %}" class="btn btn-primary">Volver al Login</a>
+    </div>
+</body>
+</html>

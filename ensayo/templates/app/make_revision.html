@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revisión de Máquinas</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        textarea {
+            width: 100%;
+            resize: none;
+        }
+        .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #007BFF;
+        }
+        .pagination span {
+            margin: 0 5px;
+        }
+        .no-records {
+            color: red;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Revisión de Registros de Máquinas</h1>
+
+    {% if messages %}
+        <div class="message">
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- Verificar si hay registros -->
+    {% if page_obj %}
+        <form method="POST">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Potencia Activa</th>
+                    <th>Descripción</th>
+                </tr>
+                {% for registro in page_obj %}
+                    <tr>
+                        <td>{{ registro.id }}</td>
+                        <td>{{ registro.name }}</td>
+                        <td>{{ registro.active_power }}</td>
+                        <td>
+                            <textarea name="description_{{ registro.id }}" rows="4" maxlength="250">{{ registro.description }}</textarea>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <button type="submit">Actualizar Descripciones</button>
+        </form>
+    {% else %}
+        <!-- Mostrar mensaje si no hay registros -->
+        <p class="no-records">No hay revisiones por hacer</p>
+    {% endif %}
+
+    <!-- Paginación -->
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; Primero</a>
+            <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+        {% endif %}
+        
+        <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+        
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Último &raquo;</a>
+        {% endif %}
+    </div>
+</body>
+</html>
+
+
